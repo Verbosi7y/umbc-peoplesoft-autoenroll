@@ -17,6 +17,12 @@ def get_login():
     with open('config.json') as f:
         config = json.load(f)
         return config['login']
+    
+
+def get_refresh():
+    with open('config.json') as f:
+        config = json.load(f)
+        return config['refresh_timer']
 
 
 def check_login(driver):
@@ -83,6 +89,8 @@ def login(driver, username, password):
 
 
 def main():
+    refresh_timer = get_refresh()
+
     cred = get_login()
 
     driver = webdriver.Chrome()
@@ -94,6 +102,8 @@ def main():
 
     if require_login:
         login(driver, cred['username'], cred['password'])
+
+    print(str(datetime.now()) + ': ' + 'INFO: The script will check every ' + str(refresh_timer) + ' seconds if the seats are opened.')
 
     open_bool = False
     while True:
@@ -122,7 +132,7 @@ def main():
             open_bool = False
 
         driver.refresh()
-        time.sleep(300) # Refresh every 5 minutes
+        time.sleep(refresh_timer) # Refresh the site every X seconds based on config.json
 
         # Check if session is about to expire and click
         try:

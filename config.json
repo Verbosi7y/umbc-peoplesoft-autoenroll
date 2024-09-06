@@ -2,6 +2,7 @@
     "url" : "",
     "login" : {
         "username" : "",
-    "password" : ""
-    }
+        "password" : ""
+    },
+    "refresh_timer" : 300
 }
